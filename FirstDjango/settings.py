@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'FirstDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'FirstDatabase'),
+        'NAME': os.path.join(BASE_DIR, 'FirstDjango.sqlite3'),
     }
 }
 
