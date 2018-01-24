@@ -4,10 +4,14 @@
  {% for post in posts %}
     <div class="post">
         <div class="date">
-            <p>published: {{ post.published_date }}</p>
         </div>
-        <h1><a href="">{{ post.title }}</a></h1>
+        <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
  {% endfor %}
 {% endblock %}
+
+<!--
+url 'post_detail' : means Django expects URL in blog/urls.py
+pk : is short for primary key, which is a unique name for each record in a database. Because we didn't specify a primary key in our Post model, Django creates one for us
+-->
