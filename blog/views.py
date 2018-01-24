@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Post
+from .forms import PostForm
+from django.shortcuts import redirect
 
 #. before models import means in current directory
 
@@ -16,3 +18,26 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
 
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+"""
+save the form with form.save
+commit=False means that we don't want to save the Post model yet – we want to add the author first.
+add an author 
+preserve changes
+go to the post_detail view, this view requires a pk variable. 
+
+als het geen POST is, naar else. Create new post form.
+
+"""
