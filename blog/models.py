@@ -22,6 +22,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Label(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    label = models.CharField(
+        max_length=200)
+
 '''
 Class            definieer je een class
 Post             naam van je oject (model)
