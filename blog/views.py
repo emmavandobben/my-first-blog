@@ -1,8 +1,10 @@
+from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post
+
 from .forms import PostForm
-from django.shortcuts import redirect
+from .models import Post
+
 
 #. before models import means in current directory
 
@@ -10,9 +12,12 @@ from django.shortcuts import redirect
 #the request has info we received from the user via internet.
 #'blog/post_list.html' is the template file
 #in between {} add something for the template. Here the QuerySet named posts.
+
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts = Post.objects.filter(
+        published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
