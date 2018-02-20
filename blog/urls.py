@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from . import views
 
 #these URLs point Django to a view named post_list and post_detail
@@ -7,7 +9,11 @@ urlpatterns = [
     url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^post/new/$', views.post_new, name='post_new'),
     url(r'^post/(?P<pk>\d+)/edit/$', views.post_edit, name='post_edit'),
+    url(r'^api/posts/$', views.APIPostList.as_view(), name='api_post_list'),
+    url(r'^api/post/(?P<pk>\d+)/$', views.APIPostDetail.as_view(), name='api_post_detail'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
 
 '''     
  ^beginning
