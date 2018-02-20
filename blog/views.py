@@ -79,9 +79,18 @@ class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    # Overriding a .perform_create() method.
+    # Modify how the instance save is managed
+    # The create() method of our serializer will now be passed
+    # an additional 'owner' field, along with validated data from the request
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UserDetail(generics.RetrieveAPIView):
