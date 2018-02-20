@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from snippets.models import Snippet
 from .models import Label
 from .models import Post
 
@@ -15,3 +16,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Label)
+admin.site.register(Snippet)

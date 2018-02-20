@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'FirstDjango.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'blog',
+    'rest_framework',
+    'snippets.apps.SnippetsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
