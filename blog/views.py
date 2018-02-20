@@ -18,8 +18,7 @@ from .serializers import UserSerializer
 #in between {} add something for the template. Here the QuerySet named posts.
 
 def post_list(request):
-    posts = Post.objects.filter(
-        published_date__lte=timezone.now()).order_by('published_date')
+    posts = Post.objects.filter()
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 def post_detail(request, pk):
