@@ -8,6 +8,8 @@ from blog.models import Post
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
+        # The source arg is used to control which attribute populates a field
+        owner = serializers.ReadOnlyField(source='owner.username')
         fields = ('__all__')
 
 
