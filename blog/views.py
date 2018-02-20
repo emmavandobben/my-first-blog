@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics
-from rest_framework import mixins
 
 from .forms import PostForm
 from .models import Post
@@ -63,34 +62,17 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-class APIPostList(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+class APIPostList(generics.ListCreateAPIView):
+    """
+    List or create a post instance.
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-
-class APIPostDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a post instance.
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
