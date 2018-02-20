@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics
+from rest_framework import permissions
 
 from .forms import PostForm
 from .models import Post
@@ -83,6 +84,7 @@ class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # Overriding a .perform_create() method.
     # Modify how the instance save is managed
@@ -96,3 +98,4 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
