@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^post/(?P<pk>\d+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^api/posts/$', views.APIPostList.as_view(), name='api_post_list'),
     url(r'^api/post/(?P<pk>\d+)/$', views.APIPostDetail.as_view(), name='api_post_detail'),
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

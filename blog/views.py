@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics
@@ -5,6 +6,7 @@ from rest_framework import generics
 from .forms import PostForm
 from .models import Post
 from .serializers import PostSerializer
+from .serializers import UserSerializer
 
 
 #. before models import means in current directory
@@ -76,3 +78,12 @@ class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
