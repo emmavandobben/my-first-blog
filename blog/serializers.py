@@ -6,11 +6,18 @@ from blog.models import Post
 
 # serializer converts model to json format
 class PostSerializer(serializers.ModelSerializer):
+    # url = PostHyperlinkedIdentityField(
+    #     view_name='post-detail'
+    # )
+
     class Meta:
         model = Post
         # The source arg is used to control which attribute populates a field
         owner = serializers.ReadOnlyField(source='owner.username')
         fields = ('__all__')
+
+
+#class PostHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
 
 class UserSerializer(serializers.ModelSerializer):

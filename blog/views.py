@@ -9,6 +9,7 @@ from rest_framework.reverse import reverse
 
 from .forms import PostForm
 from .models import Post
+from .pagination import PostPageNumberPagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer
 from .serializers import UserSerializer
@@ -53,6 +54,7 @@ als het geen POST is, naar else. Create new post form.
 
 """
 
+
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -72,8 +74,11 @@ class APIPostList(generics.ListCreateAPIView):
     """
     List or create a post instance.
     """
-    queryset = Post.objects.all()
+    # order_by you do only to yield consistent results. Order by id is fastest.
+    queryset = Post.objects.all().order_by('id')
     serializer_class = PostSerializer
+    pagination_class = PostPageNumberPagination
+   # filter_backends = PostFilter
 
 
 class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -82,6 +87,7 @@ class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
 
 
 class UserList(generics.ListAPIView):
