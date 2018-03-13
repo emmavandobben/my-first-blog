@@ -5,6 +5,9 @@ from .models import Post
 
 class PostForm(forms.ModelForm):
 
+    # Is a form that is bound to a model. Can refresh page and show data again to us, by saving it to the db.
+    # forms.Form is not connected to a model (its an unbound form), so won t store the data necessarily.
+
     class Meta:
         model = Post
         fields = ('title', 'text',)
