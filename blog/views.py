@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -16,6 +17,26 @@ from .serializers import UserSerializer
 
 
 #. before models import means in current directory
+
+# Viewset combines the logic for a set of related views (here list and detail) in a single class.
+# You register the ViewSet with a router class in urls.py
+class PostViewSet(viewsets.ReadOnlyModelViewSet):
+    model = Post
+    # order_by you do only to yield consistent results. Order by id is fastest.
+    queryset = Post.objects.all().order_by('id')
+    serializer_class = PostSerializer
+    pagination_class = PostPageNumberPagination
+    lookup_field = 'pk'
+#   filter_backends = PostFilter
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    model = User
+    queryset = User.objects.all().order_by('pk')
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    lookup_field = 'pk'
+
 
 #return a function render that will render (put together) our template blog/post_list.html.
 #the request has info we received from the user via internet.
@@ -74,7 +95,7 @@ class APIPostList(generics.ListCreateAPIView):
     """
     List or create a post instance.
     """
-    # order_by you do only to yield consistent results. Order by id is fastest.
+
     queryset = Post.objects.all().order_by('id')
     serializer_class = PostSerializer
     pagination_class = PostPageNumberPagination
@@ -87,7 +108,6 @@ class APIPostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
 
 
 class UserList(generics.ListAPIView):

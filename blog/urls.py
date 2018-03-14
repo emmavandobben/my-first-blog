@@ -1,8 +1,18 @@
 from django.conf.urls import include
 from django.conf.urls import url
-from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.routers import DefaultRouter
 
 from . import views
+
+# router makes it possible to go to a general api site (api/v1) and from there route to different api's.
+# You use Viewsets with routers.
+router = DefaultRouter()
+router.register(r'posts', views.PostViewSet, base_name='post')
+router.register(r'user', views.UserViewSet, base_name='user')
+
+api_urlpatterns = [
+    url(r'^api/v1/', include(router.urls)),
+]
 
 #these URLs point Django to a view named post_list and post_detail
 urlpatterns = [
@@ -15,9 +25,10 @@ urlpatterns = [
     url(r'^users/$', views.UserList.as_view(), name='api_user_list'),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name='api_user_detail'),
     url(r'^api-auth/', include('rest_framework.urls')),
-]
+] + api_urlpatterns
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)
+
 
 '''     
  ^beginning

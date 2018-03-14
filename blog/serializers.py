@@ -5,11 +5,7 @@ from blog.models import Post
 
 
 # serializer converts model to json format
-class PostSerializer(serializers.ModelSerializer):
-    # url = PostHyperlinkedIdentityField(
-    #     view_name='post-detail'
-    # )
-
+class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
         # The source arg is used to control which attribute populates a field
@@ -17,10 +13,8 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-#class PostHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
-
-
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    lookup_field = 'pk'
     posts = serializers.PrimaryKeyRelatedField(many=True, queryset=Post.objects.all())
 
     class Meta:
